@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SXC Physics Club | Presidential Manifesto</title>
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        sxcblue: '#0a192f',
+                        sxclight: '#112240',
+                        sxcyellow: '#ffd700',
+                        sxcaccent: '#64ffda',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0a192f;
+            color: #8892b0;
+            margin: 0;
+            padding: 0;
+        }
+        .glass-panel {
+            background: rgba(17, 34, 64, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+        }
+        /* Grid background pattern for scientific feel */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a192f; }
+        ::-webkit-scrollbar-thumb { background: #112240; border-radius: 4px; border: 1px solid rgba(100, 255, 218, 0.2); }
+        ::-webkit-scrollbar-thumb:hover { background: #64ffda; }
+    </style>
+</head>
+<body class="bg-grid antialiased relative">
+    
+    <div class="fixed inset-0 z-0 pointer-events-none" 
+         style="background-image: url('https://sxcphysicsclub.web.app/img/sxpc.jpg'); background-size: contain; background-position: center; background-repeat: no-repeat; opacity: 0.08;">
+    </div>
+
+    <div id="root" class="relative z-10"></div>
+
+    <script type="text/babel">
+        // Lucide Icon Components mapping
+        const IconMapping = {
+            Globe: () => <i data-lucide="globe" className="w-6 h-6 text-sxcaccent"></i>,
+            Recycle: () => <i data-lucide="recycle" className="w-6 h-6 text-sxcaccent"></i>,
+            Trophy: () => <i data-lucide="trophy" className="w-6 h-6 text-sxcaccent"></i>,
+            Telescope: () => <i data-lucide="telescope" className="w-6 h-6 text-sxcaccent"></i>,
+            BrainCircuit: () => <i data-lucide="brain-circuit" className="w-6 h-6 text-sxcaccent"></i>,
+            Microscope: () => <i data-lucide="microscope" className="w-6 h-6 text-sxcaccent"></i>,
+            Map: () => <i data-lucide="map" className="w-6 h-6 text-sxcaccent"></i>,
+            Calendar: () => <i data-lucide="calendar" className="w-6 h-6 text-sxcaccent"></i>,
+            Monitor: () => <i data-lucide="monitor" className="w-6 h-6 text-sxcaccent"></i>,
+            Target: () => <i data-lucide="target" className="w-6 h-6 text-sxcaccent"></i>,
+            CheckCircle: () => <i data-lucide="check-circle" className="w-4 h-4 text-sxcaccent mr-2 mt-1 shrink-0"></i>,
+            Clock: () => <i data-lucide="clock" className="w-4 h-4 mr-1"></i>,
+            DollarSign: () => <i data-lucide="dollar-sign" className="w-4 h-4 mr-1"></i>,
+            Activity: () => <i data-lucide="activity" className="w-4 h-4 mr-1"></i>
+        };
+
+        const initData = [
+            {
+                id: 1,
+                title: "Monthly 'Physics in Real Life'",
+                icon: "Globe",
+                objective: "Connect abstract physics concepts directly to daily life phenomena.",
+                activities: ["Pressure cooker mechanics (Thermodynamics)", "Motorcycle braking systems (Friction & Kinematics)", "Electric meter reading (Energy)", "Water pump fluid mechanics"],
+                timeline: "Monthly",
+                budget: "Low (Tokens of appreciation for local guest engineers)",
+                outcome: "Establishes practical application mindset and demonstrates active club leadership."
+            },
+            {
+                id: 2,
+                title: "Low-Cost Experiment Project",
+                icon: "Recycle",
+                objective: "Overcome lab equipment shortages by utilizing 'Physics from Waste'.",
+                activities: ["Electric motors from scrap wire/magnets", "Periscopes using discarded mirrors", "Homemade electromagnets", "Water rocket aerodynamics"],
+                timeline: "Bi-Monthly Workshops",
+                budget: "Minimal (Recycled materials, basic consumables)",
+                outcome: "Fosters scientific creativity, DIY engineering skills, and resourcefulness."
+            },
+            {
+                id: 3,
+                title: "Inter-House Physics Quiz",
+                icon: "Trophy",
+                objective: "Boost academic performance and competitive spirit for Class 11 & 12.",
+                activities: ["Multiple Choice (MCQ) Rounds", "High-stress Numerical Problem Rounds", "Rapid Fire Conceptuals", "Live Experiment Identification"],
+                timeline: "End of Term 1 & Term 2",
+                budget: "Medium (Certificates, Medals, Small Prizes)",
+                outcome: "Directly improves board exam readiness and creates a high-energy academic environment."
+            },
+            {
+                id: 4,
+                title: "Astronomy Night Program",
+                icon: "Telescope",
+                objective: "Ignite intellectual curiosity and emotional connection to the cosmos.",
+                activities: ["Guided stargazing and constellation mapping", "Lunar phase observational tracking", "Collaboration with local Kathmandu astronomy clubs"],
+                timeline: "Winter (Clear sky months)",
+                budget: "Low (Leveraging existing club telescopes or partnerships)",
+                outcome: "Massive student engagement and broad appeal beyond standard syllabus."
+            },
+            {
+                id: 5,
+                title: "Problem Solving Friday",
+                icon: "BrainCircuit",
+                objective: "Eradicate 'numerical anxiety' common among Class 11-12 students.",
+                activities: ["Deconstruct one complex numerical problem weekly", "Teach shortcut calculation techniques", "Implement peer-to-peer teaching models"],
+                timeline: "Every Friday",
+                budget: "Zero",
+                outcome: "Measurable increase in student confidence and exam scores in numerical sections."
+            },
+            {
+                id: 6,
+                title: "Physics Research Mini-Project",
+                icon: "Microscope",
+                objective: "Cultivate an early student research culture and systematic methodology.",
+                activities: ["Analyze temp vs. resistance", "Measure 'g' using advanced pendulum setups", "Solar panel efficiency under Kathmandu smog", "End-of-term presentation symposium"],
+                timeline: "Semester-Long Initiative",
+                budget: "Low-Medium (Basic sensors/equipment)",
+                outcome: "Builds resume-worthy scientific research, data analysis, and presentation skills."
+            },
+            {
+                id: 7,
+                title: "Real-World Field Visits",
+                icon: "Map",
+                objective: "Contextualize textbook physics within Nepal's industrial landscape.",
+                activities: ["Hydropower station logistics", "Meteorological office data collection", "Engineering college lab tours"],
+                timeline: "Once per Academic Term",
+                budget: "Medium (Transportation & Logistics)",
+                outcome: "Bridges the gap between theory and local career pathways in applied science."
+            },
+            {
+                id: 8,
+                title: "Physics Awareness Days",
+                icon: "Calendar",
+                objective: "Celebrate scientific milestones to maintain high club visibility.",
+                activities: ["National Science Day Exhibitions", "Einstein's Birthday (Pi Day) Celebrations", "Poster, Model, and Speech Competitions"],
+                timeline: "Specific Dates (e.g., Sept 17, March 14)",
+                budget: "Low (Stationery & Marketing)",
+                outcome: "School-wide engagement, establishing the Physics Club as the most active society."
+            },
+            {
+                id: 9,
+                title: "ICT Integration in Physics",
+                icon: "Monitor",
+                objective: "Modernize learning through digital tools and social media outreach.",
+                activities: ["Deploy PhET interactive simulations during sessions", "Launch SXC Physics Club YouTube/FB page", "Distribute weekly 60-second concept videos"],
+                timeline: "Continuous (Weekly uploads)",
+                budget: "Zero",
+                outcome: "Creates a digital legacy, digital resource library, and proves modern leadership thinking."
+            },
+            {
+                id: 10,
+                title: "Olympiad Preparation Cell",
+                icon: "Target",
+                objective: "Groom top-tier talent for national and international competitive physics.",
+                activities: ["Advanced weekly problem sets (beyond HSEB syllabus)", "Mentoring incoming SEE toppers", "Strategic prep for specific competitive entrance exams"],
+                timeline: "Weekly Sessions",
+                budget: "Zero",
+                outcome: "Elevates institutional prestige by producing Olympiad scholars and top entrance rankers."
+            }
+        ];
+
+        const App = () => {
+            React.useEffect(() => {
+                lucide.createIcons();
+            });
+
+            return (
+                <div className="min-h-screen font-sans text-slate-300 selection:bg-sxcaccent selection:text-sxcblue">
+                    
+                    {/* Header / Hero Section */}
+                    <header className="relative pt-24 pb-16 px-6 lg:px-12 max-w-7xl mx-auto flex flex-col items-center text-center z-10">
+                        <div className="inline-block px-4 py-1.5 rounded-full border border-sxcaccent/30 bg-sxcaccent/10 text-sxcaccent font-mono text-sm mb-6 uppercase tracking-wider">
+                            Presidential Candidacy Manifesto 2026
+                        </div>
+                        <h1 className="text-5xl md:text-7xl font-bold text-slate-100 mb-6 tracking-tight">
+                            Elevating the <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 text-glow">SXC Physics Club</span>
+                        </h1>
+                        <p className="text-xl md:text-2xl text-slate-400 max-w-3xl mb-10 font-light">
+                            A comprehensive, actionable 10-point framework for Class 11 & 12. Designed to transition physics from textbook theory to applied, research-driven reality.
+                        </p>
+                    </header>
+
+                    {/* Strategic Foundation Section */}
+                    <section className="px-6 lg:px-12 max-w-7xl mx-auto mb-20">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="glass-panel p-8 rounded-2xl hover:-translate-y-1 transition-transform duration-300">
+                                <h2 className="text-2xl font-bold text-slate-100 mb-4 flex items-center">
+                                    <span className="text-sxcaccent mr-3">1️⃣</span> Vision
+                                </h2>
+                                <p className="text-slate-400 leading-relaxed text-lg">
+                                    "To transform our school's approach to Physics—making it practical, intellectually stimulating, and inherently research-oriented for every student."
+                                </p>
+                            </div>
+                            
+                            <div className="glass-panel p-8 rounded-2xl hover:-translate-y-1 transition-transform duration-300">
+                                <h2 className="text-2xl font-bold text-slate-100 mb-4 flex items-center">
+                                    <span className="text-sxcaccent mr-3">2️⃣</span> Mission
+                                </h2>
+                                <ul className="space-y-3 text-slate-400">
+                                    <li className="flex items-start"><IconMapping.CheckCircle /> Forge elite problem-solving skills.</li>
+                                    <li className="flex items-start"><IconMapping.CheckCircle /> Promote rigorous scientific thinking.</li>
+                                    <li className="flex items-start"><IconMapping.CheckCircle /> Encourage hands-on innovation & DIY labs.</li>
+                                </ul>
+                            </div>
+
+                            <div className="glass-panel p-8 rounded-2xl hover:-translate-y-1 transition-transform duration-300">
+                                <h2 className="text-2xl font-bold text-slate-100 mb-4 flex items-center">
+                                    <span className="text-sxcaccent mr-3">3️⃣</span> Execution Plan
+                                </h2>
+                                <ul className="space-y-3 text-slate-400">
+                                    <li className="flex items-start"><IconMapping.CheckCircle /> <strong className="text-slate-200 mr-1">Monthly:</strong> Programs & Workshops.</li>
+                                    <li className="flex items-start"><IconMapping.CheckCircle /> <strong className="text-slate-200 mr-1">Quarterly:</strong> High-stakes Competitions.</li>
+                                    <li className="flex items-start"><IconMapping.CheckCircle /> <strong className="text-slate-200 mr-1">Annually:</strong> Grand Science Exhibition.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* The 10-Point Blueprint Grid */}
+                    <section className="px-6 lg:px-12 max-w-7xl mx-auto mb-24">
+                        <div className="flex items-center justify-between mb-12 border-b border-slate-700/50 pb-6">
+                            <h2 className="text-3xl font-bold text-slate-100">The 10-Point Blueprint</h2>
+                            <span className="font-mono text-sxcaccent text-sm hidden sm:inline-block">Logical. Grounded. Executable.</span>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6 relative">
+                            {initData.map((item, index) => {
+                                const Icon = IconMapping[item.icon];
+                                return (
+                                    <div key={item.id} className="glass-panel rounded-xl overflow-hidden group border border-slate-700/50 hover:border-sxcaccent/50 transition-all duration-300 flex flex-col h-full">
+                                        {/* Card Header */}
+                                        <div className="p-6 border-b border-slate-700/30 bg-sxclight/30 flex items-start justify-between">
+                                            <div className="flex items-center">
+                                                <div className="bg-sxcblue p-3 rounded-lg border border-slate-700 group-hover:border-sxcaccent/30 transition-colors">
+                                                    <Icon />
+                                                </div>
+                                                <h3 className="ml-4 text-xl font-bold text-slate-100 group-hover:text-sxcaccent transition-colors">
+                                                    {item.id}. {item.title}
+                                                </h3>
+                                            </div>
+                                        </div>
+
+                                        {/* Card Body */}
+                                        <div className="p-6 flex-grow flex flex-col gap-4">
+                                            <div>
+                                                <span className="text-xs uppercase font-bold tracking-wider text-slate-500 mb-1 block">Objective</span>
+                                                <p className="text-sm text-slate-300">{item.objective}</p>
+                                            </div>
+
+                                            <div>
+                                                <span className="text-xs uppercase font-bold tracking-wider text-slate-500 mb-2 block">Key Activities</span>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {item.activities.map((act, i) => (
+                                                        <span key={i} className="text-xs bg-sxcblue border border-slate-700 px-2.5 py-1 rounded-md text-slate-300">
+                                                            {act}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Card Footer (Metadata) */}
+                                        <div className="p-4 bg-sxcblue/50 border-t border-slate-700/30 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+                                            <div className="flex items-center text-slate-400">
+                                                <IconMapping.Clock /> <span className="text-slate-300 ml-1">{item.timeline}</span>
+                                            </div>
+                                            <div className="flex items-center text-slate-400">
+                                                <IconMapping.DollarSign /> <span className="text-slate-300 ml-1 truncate" title={item.budget}>{item.budget}</span>
+                                            </div>
+                                            <div className="flex items-start text-slate-400 sm:col-span-2 mt-2 pt-2 border-t border-slate-700/30">
+                                                <IconMapping.Activity /> 
+                                                <div className="ml-1">
+                                                    <span className="text-sxcaccent block mb-0.5">Expected Outcome:</span>
+                                                    <span className="text-slate-300 font-sans leading-snug block">{item.outcome}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </section>
+
+                    {/* Conclusion / CTA */}
+                    <footer className="border-t border-slate-800 bg-sxclight/20 relative overflow-hidden">
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sxcaccent/5 via-transparent to-transparent"></div>
+                        <div className="max-w-4xl mx-auto px-6 py-16 text-center relative z-10">
+                            <h2 className="text-3xl font-bold text-slate-100 mb-6">Why this plan works.</h2>
+                            <p className="text-slate-400 text-lg mb-8">
+                                This is not just a list of ideas; it is a systematically verified, resource-conscious operational framework. By balancing high-end academics (Olympiad cell) with grassroots engagement (Low-cost projects) and modern delivery (ICT), this blueprint ensures the SXC Physics Club leads not just within the college, but sets a benchmark across Nepal.
+                            </p>
+                            <div className="inline-block border border-sxcaccent text-sxcaccent px-8 py-3 rounded text-sm font-mono font-bold tracking-widest hover:bg-sxcaccent/10 transition-colors cursor-pointer text-glow">
+                                VOTE FOR PROGRESS. VOTE FOR EXECUTION.
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
